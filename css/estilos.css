@@ -1,0 +1,298 @@
+@font-face {
+    font-family: 'geomanistbook';
+    src: url('../fonts/geomanist-book-webfont.woff2') format('woff2'),
+         url('../fonts/geomanist-book-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+*{
+    font-family: 'geomanistbook';
+}
+
+.btn-wine{color:#fff;background-color:#9D2449;border-color:#9D2449 !important}
+.btn-wine:hover{color:#fff;background-color:#621132;border-color:#9D2449 !important}
+.btn-wine.focus,.btn-wine:focus{box-shadow:0 0 0 3px rgba(255,255,255,.5) !important}
+.btn-wine.disabled,.btn-wine:disabled{background-color:#9D2449;border-color:#9D2449 !important}
+.btn-wine.active,.btn-wine:active,.show>.btn-wine.dropdown-toggle{background-color:#9D2449;background-image:none;border-color:#9D2449 !important}
+
+.btn-gold{color:#fff;background-color:#B38E5D;border-color:#B38E5D !important}
+.btn-gold:hover{color:#fff;background-color:#D4C19C;border-color:#B38E5D !important}
+.btn-gold.focus,.btn-gold:focus{box-shadow:0 0 0 3px rgba(255,255,255,.5) !important}
+.btn-gold.disabled,.btn-gold:disabled{background-color:#B38E5D;border-color:#B38E5D !important}
+.btn-gold.active,.btn-gold:active,.show>.btn-gold.dropdown-toggle{background-color:#B38E5D;background-image:none;border-color:#B38E5D !important}
+
+.banner-inst{
+    width:50%;
+}
+
+.bg-carbon{
+    background-color: #34495e !important;
+}
+
+.bg-carbon2{
+    background-color: #2c3e50 !important;
+}
+
+.bg-wine-white{
+    background-color: #9D2449;
+}
+
+.bg-wine{
+    background-color: #621132 !important;
+}
+
+.bg-wine-dark{
+    background: #4E232E !important;
+}
+
+.text-wine{
+    color: #621132 !important;
+}
+
+.text-gold{
+    color: #D4C19C !important;
+}
+
+.text-azul{
+    color:#3498db !important;
+}
+
+.text-azul2{
+    color:#2980b9 !important;
+}
+
+.text-verde{
+    color:#2ecc71 !important;
+}
+
+.text-verde2{
+    color:#27ae60 !important;
+}
+
+.text-viol{
+    color:#9b59b6 !important;
+}
+
+.text-viol2{
+    color:#8e44ad !important;
+}
+
+.text-nara{
+    color:#e67e22 !important;
+}
+
+.text-nara2{
+    color:#d35400 !important;
+}
+
+.text-rojo{
+    color:#e74c3c !important;
+}
+
+.text-rojo2{
+    color:#c0392b !important;
+}
+
+.text-carbon{
+    color:#34495e !important;
+}
+
+.text-carbon2{
+    color:#2c3e50 !important;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px; /* Set the fixed height of the footer here */
+  line-height: 60px; /* Vertically center the text there */
+  background-color: #f5f5f5;
+}
+
+.table{
+    margin-bottom: 0 !important;
+}
+
+#BGLogin{
+    background-image: url('../img/bgIndex.jpg');
+    height: 200%;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.celda a .link{
+    color: #000;
+}
+
+.celda{
+
+}
+
+.t-menu{
+    
+}
+
+.t-menu:hover{
+    color: #fff;
+    background: #2980b9 !important;
+}
+
+.a-menu{
+    
+}
+
+.a-menu:hover{
+    color: #fff;
+    background: #621132 !important;
+}
+
+.ad-menu{
+    
+}
+
+.ad-menu:hover{
+    color: #fff;
+    background: #c0392b;
+}
+
+.celda:hover{
+    background-color: #f0f2f4;
+}
+
+div .asesoria{
+    background-color: #27ae60;
+}
+
+div .navegacion-a{
+    /*background-color: #27ae60 !important;*/
+}
+
+div .navegacion-a:hover{
+    background-color: #9D2449 !important;
+    border-radius: 5px !important ;
+}
+
+div .navegacion-t{
+    /*background-color: #2980b9 !important;*/
+}
+
+div .navegacion-t:hover{
+    background-color: #9D2449 !important;
+    border-radius: 5px !important ;
+}
+
+div .navegacion-ad{
+}
+
+div .navegacion-ad:hover{
+    background-color: #9D2449 !important;
+    border-radius: 5px !important ;
+}
+
+#BGInicio{
+    /*background-image: url('../img/BG2.png');*/
+    background-color: #ecf0f1;
+    background-attachment: fixed;
+
+    font-family: "Geomanist-Book" !important;
+}
+
+#MenuPrincipal{
+    box-shadow: 5px 5px 5px !important;
+}
+
+#InicioSesion{
+    background-image: url('../img/bgSesion.jpg');
+    height: 200%;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#footer{
+    padding-top: 5000px;
+    background-color: #34495e !important;
+}
+
+#Registro{
+    background-image: url('../img/bgSesion.jpg');
+    height: 200%;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/*
+#carrusel1{
+    background-image: url('../img/bg1.jpg');
+    height: 200%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#carrusel2{
+    background-image: url('../img/bgIndex.jpg');
+    height: 200%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#carrusel3{
+    z-index: 3;
+    background-image: url('../img/bgSesion.jpg');
+    height: 200%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#carrusel4{
+    z-index: 3;
+    background-image: url('../img/BG3.png');
+    height: 200%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+*/
+
+a .post{
+    background-color: #f0f2f4 !important;
+    text-decoration: none !important;
+}
+
+a.post:hover{
+    background-color: #f0f2f4 !important;
+    text-decoration: none !important;
+}
+
+td{
+    font-size: 10pt;
+}
+
+td button{
+    font-size: 8pt !important;
+}
+
+ .ban-inst{
+    width: 30% !important;
+}
+
+@media screen and (max-width:800px){
+    .ban-inst{
+        width: 80% !important;
+    }
+    
+    .banner-inst{
+     width:20%;
+    }
+}

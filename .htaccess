@@ -1,0 +1,9 @@
+RewriteEngine On
+RewriteCond %{SCRIPT_FILENAME} !-d  
+RewriteCond %{SCRIPT_FILENAME} !-f 
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteBase /
+
+RewriteRule ^/?index/?$ index.php [L]
+
+RewriteRule ^grupos/([0-9]+)$  grupos.php?id=$1 [NC,QSA]

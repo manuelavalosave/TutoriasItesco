@@ -1,0 +1,1 @@
+<textarea><?php echo $_POST['GuardarPlanDeTrabajo']; ?></textarea>
