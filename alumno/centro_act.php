@@ -16,7 +16,7 @@ $obt->execute();
 $group = $obt->fetch();
 
 
-$stat = $conexion->prepare('SELECT id_actividad,titulo,fecha_entrega FROM actividades WHERE id_grupo = :grupo');
+$stat = $conexion->prepare('SELECT id_actividad,titulo,fecha_entrega FROM actividades WHERE id_grupo = :grupo and MostrarAlumno=1');
 $stat->execute(array(':grupo' => $group['id_gp']));
 $actividades = $stat->fetchAll();
 ?>

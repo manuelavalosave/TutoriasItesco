@@ -35,7 +35,11 @@ $DatosPersonales = $consulta->fetch();
 $grupos1 = $conexion->prepare("CALL datos_grupo_periodo(:id)");
 $grupos1->execute(array(':id' => $_SESSION['usuario'][0]));
 $grupos2 = $grupos1->fetchAll();
+$grupos1->closeCursor();
 
+$statement = $conexion->prepare('SELECT * FROM formatos_tutor WHERE autor = :autor');
+$statement->execute(array(":autor" => $_SESSION['usuario']['0']));
+$plan = $statement->fetchall();
 
 
 ?>
@@ -54,7 +58,7 @@ height: 500,
 font_formats: "Calibri=calibri,sans-serif; Arial=arial,sans-serif",
 fontsize_formats: "8pt 10pt 11pt 12pt 14pt 18pt 24pt 36pt",
 
-  toolbar: 'saveToPdf | save |undo redo | fontselect fontsizeselect formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help | table',
+  toolbar: 'undo redo | fontselect fontsizeselect formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help | table',
 powerpaste_allow_local_images: true,
   powerpaste_word_import: 'prompt',
   powerpaste_html_import: 'prompt',
@@ -203,10 +207,37 @@ powerpaste_allow_local_images: true,
 
                 <div class="card-header h3 text-light" style="background-color: #e74c3c">REGISTRO DEL TUTOR</div>
                 <div class="card-body">
-                        <form method="POST" action="../PITA-2.0.1/RegistroFormatoPDF.php">
+                    <?php  $contadoR = 0; if (!empty($plan) ): ?>
+<?php $r = "Registro_de_Tutor"; foreach($plan as $arch){ if($arch['archivo'] == $r) { $contadoR = $contadoR+1;  ?>
+                        <div class="alert alert-danger">
+                            <form name="borrar" action="../app/op_tutor_reporte.php?g=<?php echo $_GET['g']; ?>&n=<?php echo $_GET['r']; ?>" method="POST">
+                                <a target="_blank" href="../docs/registros/<?php echo $_SESSION['usuario'][0] ?>/<?php echo $arch['archivo'] ?>.pdf" class="alert-link h5"><i class="material-icons">description</i> <?php $nombredelarchivo = str_replace("_", " ", $arch['archivo']);echo $nombredelarchivo;?></a> <div>Fecha: <?php echo $arch['fec_sub'] ?></div>
+                                <div>Estado: 
+                                <?php if($arch['estado'] == "1"):?>
+                                <strong class="badge badge-secondary">En Proceso de Revision</strong>
+                                <?php elseif($arch['estado'] == "0"): ?>
+                                <strong class="badge badge-warning">No Enviado</strong>
+                                <?php elseif($arch['estado'] == "2"): ?>
+                                <strong class="badge badge-success">Revisado</strong>
+                                <?php elseif($arch['estado'] == "3"): ?>
+                                <strong class="badge badge-danger">Rechazado</strong>
+                                <?php endif ?>
+                                </div>
+                                <div class="text-right"><input name="EnviarPlan" type="submit" class="btn btn-sm btn-outline-success" value="Enviar"><input name="delete" type="submit" class="btn btn-sm btn-outline-danger" value="Eliminar"></div>
+                                <input name="id" type="text" value="<?php echo $arch['id']?>" hidden>
+                                <input name="file" type="text" value="<?php echo $arch['archivo']?>" hidden>
+                            </form>
+                        </div>
+        <?php  } } ?>
+                        <?php else: ?>
+                            <p class="text-muted">"Aun no a generado el regostro del tutor..."</p>
+                            
+                    </form>
+                       <?php endif ?>
+                        <form method="POST" action="http://localhost/PITA-2.0.1/RegistroFormatoPDF.php">
                      <textarea name="GuardarPlanDeTrabajo">
             <p style="text-align: center; margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: Arial, sans-serif; color: black;" align="center"><strong><u>REGISTRO DEL TUTOR </u></strong></p>
-<p style="text-align: center; margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: Arial, sans-serif; color: black;" align="center"><strong><u>&nbsp;</u></strong></p>
+
 <table class="MsoNormalTable" style="border-collapse: collapse; width: 98.6301%; border-color: initial; border-style: none; margin-left: auto; margin-right: auto;" border="1" cellspacing="0" cellpadding="0">
 <tbody>
 <tr style="height: 12.65pt;">
@@ -420,7 +451,7 @@ powerpaste_allow_local_images: true,
 </table>
 </div>
 <p style="text-align: center; margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: Arial, sans-serif; color: black;" align="center"><strong><u>INFORMACI&Oacute;N LABORAL </u></strong></p>
-<p style="margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: Arial, sans-serif; color: black;">&nbsp;</p>
+
 <table style="width: 711px;" cellspacing="0" cellpadding="0" align="left">
 <tbody>
 <tr>
@@ -472,7 +503,7 @@ powerpaste_allow_local_images: true,
 <p style="text-align: center; line-height: 150%; margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: Arial, sans-serif; color: black;" align="center"><span style="font-size: 9.0pt; line-height: 150%;">&nbsp;</span></p>
 </td>
 <td style="width: 105.3pt; border-top: none; border-left: none; border-bottom: solid black 1.0pt; border-right: solid black 1.0pt; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top">
-<p style="text-align: center; line-height: 150%; margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: Arial, sans-serif; color: black;" align="center"><span style="font-size: 9.0pt; line-height: 150%;"><?php echo "".$grupo['semestre']."° ".$grupo['grupo']."";?></span></p>
+<p style="text-align: center; line-height: 150%; margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: Arial, sans-serif; color: black;" align="center"><span style="font-size: 9.0pt; line-height: 150%;"><?php echo "".$grupo['semestre']."° ".$grupo['grupo']." ".$grupo['carrera']."";?></span></p>
 </td>
 <td style="width: 94.85pt; border-top: none; border-left: none; border-bottom: solid black 1.0pt; border-right: solid black 1.0pt; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top">
 <p style="text-align: center; line-height: 150%; margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: Arial, sans-serif; color: black;" align="center"><span style="font-size: 9.0pt; line-height: 150%;">&nbsp;</span></p>
@@ -488,7 +519,7 @@ powerpaste_allow_local_images: true,
 <tbody>
 <tr style="height: 17px;">
 <td style="width: 554.514px; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1pt solid windowtext; padding: 0cm 5.4pt; height: 17px;" valign="top">
-<p style="text-align: center; line-height: 150%; margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: Arial, sans-serif; color: black;" align="center"><span style="font-size: 10.0pt; line-height: 150%;"><?php echo ucwords($DatosPersonales['nombre']); ?> <?php echo ucwords($DatosPersonales['a_paterno']); ?> <?php echo ucwords($DatosPersonales['a_materno']); ?></span></p>
+<p style="text-align: center; line-height: 150%; margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: Arial, sans-serif; color: black;" align="center"><span style="font-size: 10.0pt; line-height: 100%;"><?php echo ucwords($DatosPersonales['nombre']); ?> <?php echo ucwords($DatosPersonales['a_paterno']); ?> <?php echo ucwords($DatosPersonales['a_materno']); ?></span></p>
 </td>
 </tr>
 <tr style="height: 44px;">
@@ -502,6 +533,8 @@ powerpaste_allow_local_images: true,
 </textarea>
 <input  name="Codigor" type="hidden" value="ITESCO-AC-PO-008-02">
 <input  name="Titulor" type="hidden" value="Registro de Tutor">
+<input  name="Grupo" type="hidden" value="<?php echo $_SESSION['usuario'][0]; ?>">
+<button name="submitbtn" class="btn btn-block btn-wine mt-4"> GUARDAR </button>
 </form>
                 </div>
             </div>

@@ -8,11 +8,11 @@ $conexion = conexion($db_config);
 if(!empty($_POST['p-aceptar'])){
     $stat2 = $conexion->prepare("UPDATE formatos_tutor SET estado = 2 WHERE id = :id");
     $stat2->execute(array(":id" => $_POST['id']));
-    header('Location: ../admin/reportes.php?a=1');
+    header('Location: ../admin/ReportesTutores.php?id='.$_GET['id_g'].'&id_user='.$_GET['iduser'].'');
 }elseif($_POST['p-cancelar']){
     $stat3 = $conexion->prepare("UPDATE formatos_tutor SET estado = 3 WHERE id = :id");
     $stat3->execute(array(":id" => $_POST['id']));
-    header('Location: ../admin/reportes.php?a=1');
+    header('Location: ../admin/ReportesTutores.php?id='.$_GET['id_g'].'&id_user='.$_GET['iduser'].'');
 }
 
 if(!empty($_POST['r-aceptar'])){
@@ -66,7 +66,7 @@ if(!empty($_POST['f_eliminar'])){
 }
 
 
-$stat = $conexion->prepare("SELECT * FROM formatos_tutor WHERE estado = 1 or estado = 2");
+$stat = $conexion->prepare("SELECT * FROM formatos_tutor WHERE estado == 1 or estado == 2");
 $stat->execute();
 $planes = $stat->fetchAll();
 

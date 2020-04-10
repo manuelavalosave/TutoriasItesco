@@ -1,5 +1,6 @@
 <?php
-
+ini_set('display_errors', 0);
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
 include_once 'plantillas/index_dec.php';
 include_once 'app/conexion.ini.php';
 include_once 'app/registro.inc.php';

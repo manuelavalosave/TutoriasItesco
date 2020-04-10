@@ -1,5 +1,7 @@
 <?php
 session_start();
+ini_set('display_errors', 0);
+error_reporting(E_ERROR | E_WARNING | E_PARSE); 
 if ($_SESSION['usuario']['3'] == '3') {
     include_once '../plantillas/doc-declaracion.inc.php';
     include_once '../plantillas/navbar.inc.php';

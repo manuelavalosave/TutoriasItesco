@@ -97,24 +97,26 @@ if ($_SESSION['usuario']['3'] == '2') {
                     <?php $i++; endforeach ?>
                 </div>
 
-                <div class="card-header text-light" style="background-color: #9b59b6"><span class="h3">Asesorías</span></div>
+                <div class="card-header text-light" style="background-color: #9b59b6"><span class="h3">Entrevistas</span></div>
                 <div class="card-body" style="overflow-y: scroll; height: 320px;">
-                    <div class="h3 text-viol">Asesorías pendientes:</div>
+                    <div class="h3 text-viol">Entrevistas pendientes :</div>
                     <hr>
 
 
                     <?php if (empty($resultado)): ?>
-                        <p class="text-muted">No tienes asesorías pendientes...</p>
+                        <p class="text-muted">No tienes entrevistas pendientes...</p>
                     <?php endif ?>
                     
-                    <?php foreach ($resultado as $asesoria): ?>
+                    <?php 
+                    $con = 0;
+                    foreach ($resultado as $asesoria): $con = $con+1; ?>
                     <div class="card card-body" style="background-color:#fafafa">
                         <div class="row">
-                            <div class="col-10"><b class="h3 text-viol2">"<?php echo $asesoria['titulo']?>"</b></div>
+                            <div class="col-10"><b class="h3 text-viol2">"Entrevista <?php echo $con ?>"</b></div>
                             <div class="col text-right">
-                                <form name="e-asesoria<?php echo $i?>" action="../app/op_tutor_asesorias.php" method="post">
+                                <form name="e-asesoria<?php echo $i?>" action="../app/op_tutor_asesorias.php?g=<?php echo $_GET['g']; ?>" method="post">
                                     <button name="eliminar" class="btn btn-sm btn-outline-danger" type="submit" value="eliminar">Eliminar</button>
-                                    <input name="i" type="text" value="<?php echo $asesoria['id']?>" hidden>
+                                    <input name="i" type="text" value="<?php echo $asesoria['id_entrevistas']?>" hidden>
                                 </form>
                             </div>
                         </div>
@@ -122,9 +124,14 @@ if ($_SESSION['usuario']['3'] == '2') {
                         <i class="text-muted"><?php echo $asesoria['descripcion']?></i>
                         <p></p>
                         <div class="row">
-                            <div class="col text-left text-capitalize text-muted"><b class="text-viol2">Alumno: </b><?php $user = obtener_usuario($asesoria['alumno'],$conexion); echo $user['nombre'];?></div>
-                            <div class="col text-right text-muted"><b class="text-viol2">Fecha de cita: </b><?php echo strftime("%d de %B del %G", strtotime($asesoria['fecha'])) ?></div>
-                            <div class="col-3 text-right text-muted"><b class="text-viol2">Hora: </b><?php echo $asesoria['hora'] ?>  hrs</div>
+                            <div class="col text-left text-capitalize text-muted"><b class="text-viol2">Alumno: </b><?php $user = obtener_usuario($asesoria['id_alumno'],$conexion); echo $user['nombre'];?></div>
+                            <div class="col text-right text-muted"><b class="text-viol2">Fecha de cita: </b><?php echo strftime("%d de %h del %G", strtotime($asesoria['fecha'])) ?></div>
+                            <div class="col-3 text-right text-muted"><b class="text-viol2">Hora: </b><?php 
+$HorarioSolicitado = $conexion->prepare("SELECT * FROM horario_entrevista WHERE Id_Horario = :id");
+$HorarioSolicitado->execute(array(":id" => $asesoria['id_lugar']));
+$Lugar = $HorarioSolicitado->fetchAll();
+print_r($Lugar[0][2]);
+                             ?>   hrs</div>
                         </div>
                     </div>
                     <p></p>

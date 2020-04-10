@@ -9,7 +9,7 @@ if (isset($_POST['EnviarPlan'])) {
 			$statement->execute(array(":id" => $_POST['id']));
 			$errores = "¡Archivo subido exitosamente!";
             echo $errores;
-            header('Location:../tutor/T-Reporte.php?a=1&g='.$_GET['g'].'');
+            header('Location:../tutor/T-Reporte.php?a=1&g='.$_GET['g'].'&r='.$_GET['n'].'');
 		
 	}
 
@@ -26,7 +26,7 @@ if(isset($_POST['delete'])){
       unlink("../docs/html/".$_GET['g']."/$name.html");
     $errores = "Archivo eliminado correctamente.";
     print_r($statement);
-    header("Location:../tutor/T-Reporte.php?a=2&g=".$_GET['g']."");
+    header("Location:../tutor/T-Reporte.php?a=2&g=".$_GET['g']."&r=".$_GET['n']."");
     
 }
 
@@ -44,7 +44,7 @@ if (isset($_POST['cargar2'])) {
 			$statement = $conexion->prepare("INSERT INTO reportes (id, parcial, autor, archivo, fec_sub, estado) VALUES (NULL, :parcial, :autor, :archivo, NULL, 1)");
 			$statement->execute(array(":parcial" => $_POST['parcial'],":autor" => $_SESSION['usuario']['0'], ":archivo" => $_FILES['reporte']['name']));
 			$errores = "¡Archivo subido exitosamente!";
-            header('Location:../tutor/T-Reporte.php?a=1');
+           header('Location:../tutor/T-Reporte.php?a=1');
 		}
 	}
 }
@@ -69,7 +69,7 @@ $formatos = $f->fetchAll();
 
 $statement = $conexion->prepare('SELECT * FROM formatos_tutor WHERE autor = :autor and id_grupo = :id');
 $statement->execute(array(":autor" => $_SESSION['usuario']['0'], 'id' => $_GET['g']));
-$plan = $statement->fetch();
+$plan = $statement->fetchall();
 
 $state = $conexion->prepare('SELECT parcial,archivo,fec_sub,estado FROM reportes WHERE autor = :autor ORDER BY parcial ASC');
 $state->execute(array(':autor'=>$_SESSION['usuario']['0']));

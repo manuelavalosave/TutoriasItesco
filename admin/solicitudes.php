@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 0);
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
 include_once '../plantillas/doc-declaracion.inc.php';
 include_once '../plantillas/navbar_admin.inc.php';
 include_once '../app/conexion.php';

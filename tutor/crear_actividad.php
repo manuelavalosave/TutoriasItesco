@@ -22,10 +22,10 @@ if ($_SESSION['usuario']['3'] == '2') {
             <div id="chat" class="card" style="border-color: #3498db;">
                 <div class="card-header h3 text-white" style="background: #3498db">Generar Actividad</div>
                 <div class="card-body">
-                	<form name="actividad-new" enctype="multipart/form-data" action="../app/op_tutor_crear_act.php" method="POST">
-                	<input  name="g"  value="<?php echo $_GET['g']; ?>" type="hidden">
-                	<?php if(!empty($act)):?>
-                	<div class="input-group">
+                    <form name="actividad-new" enctype="multipart/form-data" action="../app/op_tutor_crear_act.php" method="POST">
+                    <input  name="g"  value="<?php echo $_GET['g']; ?>" type="hidden">
+                    <?php if(!empty($act)):?>
+                    <div class="input-group">
                             <span class="input-group-addon">Título de la Actividad</span>
                             <input type="text" name="titulo" class="form-control" value="<?php echo $act['titulo']?>" required>
                         </div>
@@ -61,10 +61,18 @@ if ($_SESSION['usuario']['3'] == '2') {
                             <input type="submit" name="editar" class="btn btn-outline-primary" value="Editar">
                         </div>
                         <?php else: ?>
+
+                              <br>
+                        <label for="descripcion">Mostrar al Tutorado:</label>
+ <input type="radio" name="Alumno" value="1" onclick="ocultar()" > Si
+  <input type="radio" name="Alumno" value="mujer" onclick="mostrar()" > No
+                        <br>
+
                         <div class="input-group">
                             <span class="input-group-addon">Título de la Actividad</span>
-                            <input type="text" name="titulo" class="form-control" required>
+                            <input type="text" name="titulo" class="form-control" >
                         </div>
+                        <div id="ArchivosT">
                         <br>
                         <div class="text-rojo" style="font-size:12px">*Opcional: Dejar vacío si no desea subir un archivo.</div>
                         <div class="input-group">
@@ -74,32 +82,48 @@ if ($_SESSION['usuario']['3'] == '2') {
                         <div class="text-azul" style="font-size:12px">*Formatos aceptados: .pdf, .zip, .rar</div>
                         <br>
                         <label for="descripcion">Descripción de la actividad:</label>
-                        <textarea class="form-control" name="descripcion" style="height: 120px; max-height: 120px; min-height: 120px;" required></textarea>
-                        <br>
+                        <textarea class="form-control" name="descripcion" style="height: 120px; max-height: 120px; min-height: 120px;" ></textarea>
+                        <br></div>
+                        <div id="planDeTrabajo">
                           <label for="descripcion">Objetivo de la actividad:</label>
-                        <textarea class="form-control" name="objetivo" style="height: 120px; max-height: 120px; min-height: 120px;" required></textarea>
+                        <textarea class="form-control" name="objetivo" style="height: 120px; max-height: 120px; min-height: 120px;" ></textarea>
                         <br>
                          <br>
                         <label for="descripcion">Materiar a utilizar:</label>
-                        <textarea class="form-control" name="material" style="height: 120px; max-height: 120px; min-height: 120px;" required></textarea>
+                        <textarea class="form-control" name="material" style="height: 120px; max-height: 120px; min-height: 120px;" ></textarea>
                         <br>
                          <br>
                         <label for="descripcion">Observacion:</label>
-                        <textarea class="form-control" name="Observacion" style="height: 120px; max-height: 120px; min-height: 120px;" required></textarea>
-                        <br>
+                        <textarea class="form-control" name="Observacion" style="height: 120px; max-height: 120px; min-height: 120px;" ></textarea>
+                     
+                    </div>
+                       <br>
                         <div class="input-group">
-                            <span class="input-group-addon">Fecha de Entrega:</span>
-                            <input type="date" name="entrega" class="form-control" required>
+                            <span class="input-group-addon">Fecha Programada:</span>
+                            <input type="date" name="entrega" class="form-control" >
                         </div>
                         <br>
                         <div class="text-right">
                             <input type="submit" name="enviar" class="btn btn-outline-primary" value="Publicar">
                         </div>
-                	<?php endif ?>
-                	</form>
+                    <?php endif ?>
+                    </form>
                 </div>
             </div>
         </div>
+        <script type="text/javascript">
+            function mostrar(){
+
+document.getElementById('planDeTrabajo').style.display = 'block';
+document.getElementById('ArchivosT').style.display = 'none';
+}
+function ocultar(){
+
+document.getElementById('planDeTrabajo').style.display = 'none';
+document.getElementById('ArchivosT').style.display = 'block';
+
+}
+        </script>
         <?php include_once '../plantillas/T-menu.inc.php'; ?>
     </div>
 </div>

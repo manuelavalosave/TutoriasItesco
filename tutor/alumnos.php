@@ -30,6 +30,7 @@ $lista = $stat2->fetchAll();
 $datos = $conexion->prepare("CALL datos_grupo(:id)");
 $datos->execute(array(":id" =>$group['fk_Grupo']));
 $obt_Grupos = $datos->fetch();
+$datos->closeCursor();
 $i=1;
 ?>
 <div class="container">
@@ -51,7 +52,7 @@ $i=1;
                         <thead class="bg-info text-white">
                             <th scope="col">#</th>
                             <th scope="col">Nombre</th>
-                            <th scope="col">Action</th>
+                            <th scope="col">Accion</th>
                         </thead>
                         <?php if(empty($lista)):?>
                         <tr>
@@ -59,7 +60,16 @@ $i=1;
                         </tr>
                         <?php endif ?>
                         <tbody>
-                                <?php  foreach ($lista as $alumno): ?>
+                                <?php 
+                                 foreach ($lista as $a){
+                                 
+$datosUsuario = $conexion->prepare("CALL informacion_alumno(:id)");
+$datosUsuario->execute(array(":id" =>$a[0]));
+$DetalleU = $datosUsuario->fetchall();
+
+foreach ($DetalleU as $alumno) {
+
+                                  ?>
                                 <tr class="celda">
                                     <th><?php echo $i ?></th>
                                     <td class="text-capitalize" ><?php echo $alumno['nombre']; ?></td>
@@ -111,7 +121,7 @@ $i=1;
                                     </div>
                                 </div>
                                 
-                                <?php $i++; endforeach ?>
+                                <?php $i++; }} ?>
                             </tbody>
                         </table>
                     </div>

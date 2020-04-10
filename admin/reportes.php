@@ -1,5 +1,7 @@
 <?php
 session_start();
+ini_set('display_errors', 0);
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
 if ($_SESSION['usuario']['3'] == '1') {
     include_once '../plantillas/doc-declaracion.inc.php';
     include_once '../plantillas/navbar_admin.inc.php';
@@ -12,6 +14,12 @@ if ($_SESSION['usuario']['3'] == '1') {
     header('Location: ../inicioSesion.php');
 }
 
+//SELECT * FROM `grupo` GROUP by carrera
+$conexion = conexion($db_config);
+
+$carrera = $conexion->prepare("SELECT * FROM `grupo` GROUP by carrera limit 1, 13");
+$carrera->execute();
+$u = $carrera->fetchall();
 ?>
 <div class="container">
    <?php if($_GET['a'] == 1): ?>
@@ -33,6 +41,10 @@ if ($_SESSION['usuario']['3'] == '1') {
             </p>
                 <div class="collapse" id="formatos">
                   <div class="card card-body" style="margin-bottom:20px">
+
+
+
+
                     <table class="table table-responsive table-striped">
                         <tbody>
                             <?php 
@@ -151,100 +163,32 @@ if ($_SESSION['usuario']['3'] == '1') {
             </div>
            
             <div class="card" style="border-color: #34495e; margin-bottom: 20px; max-height: 500px;">
-                <div class="card-header h3 text-white" style="background-color: #34495e">Plan de Trabajo</div>
+                <div class="card-header h3 text-white" style="background-color: #34495e">Lista Tutores Por Carrera</div>
                 <div class="card-body" style="padding:0;  overflow-y:scroll;">
-                <table class="table table-responsive table-striped">
-                    <thead class="text-white" style="background: #2c3e50">
-                        <th scope="col">#</th>
-                        <th scope="col">Docente</th>
-                        <th scope="col" class="text-center">Fecha de subida</th>
-                        <th scope="col" class="text-center">Archivo</th>
-                        <th scope="col" class="text-center">Estado</th>
-                        <th scope="col" class="text-center">Revisión</th>
-                    </thead>
-                    <tbody>
-                       <?php if(!empty($planes)):?>
-                        <?php foreach($planes as $plan): ?>
+
+
+<table class="table table-responsive table-striped">
+                        <tbody> 
+                            <th>#</th>
+                           <th>Carrera</th>
+                          
+                   
+                            <?php $cn = 1;foreach ($u as $carrera ) { ?>
+                            
+                            
                             <tr>
-                                <td><?php echo $i?></td>
-                            <td class="text-capitalize"><?php $name = obtener_usuario($plan['autor'],$conexion); echo $name['nombre'];?></td>
-                            <td class="text-center"><?php echo $plan['fec_sub'] ?></td>
-                            <th class="text-center">
-                                <a class="btn btn-sm btn-outline-secondary" target="_blank" href="../docs/planificacion/<?php echo $plan['Id_grupo']?>/<?php echo $plan['archivo']?>.pdf" ><i class="material-icons">insert_drive_file</i></a>
-                                <!--<a class="btn btn-sm btn-outline-secondary" href="#" download="../docs/planes/<?php echo $plan['archivo']?>">Descargar</a>-->
-                            </th>
-                            <?php if($plan['estado'] == "1"):?>
-                            <td class="text-center text-muted"><i class="material-icons">access_time</i></td>
-                            <?php elseif($plan['estado'] == "2"):?>
-                            <td class="text-center text-success"><i class="material-icons">check_circle</i></td>
-                            <?php elseif($plan['estado'] == "3"): ?>
-                            <td class="text-center text-danger"><i class="material-icons">cancel</i></td>
-                            <?php endif?>
-                            <td class="text-center">
-                                <form name="F-planes" action="../app/op_admin_reportes.php" method="post">
-                                <input name="id" type="text" value="<?php echo $plan['id']?>" hidden>
-                                <button name="p-aceptar" class="btn btn-sm btn-outline-success" value="aceptar" type="submit">Aceptar</button>
-                                <button name="p-cancelar" class="btn btn-sm btn-outline-danger" value="cancelar" type="submit">Cancelar</button>
-                                </form>
-                            </td>
+                                <td><?php echo $cn;?></td>
+                                
+                                <td>
+                                    <a  href="../admin/mostrarTutores.php?n=<?php echo $carrera['carrera']; ?>"><?php echo $carrera['carrera']; ?></a>
+                                </td>
+                            
                             </tr>
-                        <?php $i++; endforeach ?>
-                        <?php else: ?>
-                        <tr>
-                            <th class="text-center text-muted" colspan="6">Aun no se ha registrado ningún plan...</th>
-                        </tr>
-                        <?php endif?>
-                    </tbody>
-                </table>
-                </div>
-            </div>
-            <div class="card" style="border-color: #34495e; max-height: 500px;">
-                <div class="card-header h3 text-white" style="background: #34495e">Reportes parciales</div>
-                <div class="card-body" style="padding:0; overflow-y:scroll;">
-                    <table class="table table-responsive table-striped">
-                        <thead class="text-white" style="background: #2c3e50">
-                            <th scope="col">#</th>
-                            <th scope="col">Docente</th>
-                            <th class="text-center" scope="col">Parcial</th>
-                            <th class="text-center" scope="col">Archivo</th>
-                            <th class="text-center" scope="col">Estado</th>
-                            <th class="text-center" scope="col">Revisión</th>
-                        </thead>
-                        <tbody>
-                          <?php if(!empty($reportes)):?>
-                           <?php foreach($reportes as $reporte): ?>
-                               <tr>
-                                   <td><?php echo $j ?></td>
-                                   <td class="text-capitalize"><?php $name = obtener_usuario($reporte['autor'],$conexion); echo $name['nombre'];?></td>
-                                   <td class="text-center"><?php echo $reporte['parcial']?></td>
-                                   <td class="text-center">
-                                   <a href="../docs/reportes/<?php echo $reporte['archivo']?>" class="btn btn-sm btn-outline-secondary" target="_blank"><i class="material-icons">insert_drive_file</i></a>
-                                   </td>
-                                   <?php if($reporte['estado'] == "1"):?>
-                                   <td class="text-center text-secondary"><i class="material-icons">access_time</i></td>
-                                   <?php elseif($reporte['estado'] == "2"): ?>
-                                   <td class="text-center text-success"><i class="material-icons">check_circle</i></td>
-                                   <?php elseif($reporte['estado'] == "3"): ?>
-                                   <td class="text-center text-danger"><i class="material-icons">cancel</i></td>
-                                   <?php endif; ?>
-                                   <td class="text-center">
-                                    <form name="F-repo" action="../app/op_admin_reportes.php" method="post">
-                                    <input name="r-id" type="text" value="<?php echo $reporte['id']?>" hidden>
-                                    <button name="r-aceptar" type="submit" class="btn btn-sm btn-outline-success" value="aceptar">Aceptar</button>
-                                    <button name="r-rechazar" type="submit" class="btn btn-sm btn-outline-danger" value="cancelar">Rechazar</button>
-                                   </form>
-                                   </td>
-                               </tr>
-                           <?php $j++; endforeach ?>
-                           <?php else: ?>
-                            <tr>
-                            <th class="text-center text-muted" colspan="6">Aun no se ha registrado ningún reporte...</th>
-                            </tr>
-                           <?php endif ?>
+                          <?php $cn++; } ?>
                         </tbody>
-                    </table>            
-                </div>
-            </div>
+                    </table>
+</div>
+</div>
         </div>
         <?php include_once '../plantillas/Ad-menu.inc.php'; ?>
     </div>

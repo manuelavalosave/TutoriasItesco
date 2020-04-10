@@ -67,6 +67,28 @@ if (isset($_POST['boton-alumnos'])) {
 
 
        $detallesGuardarBD->execute(array(':iduser' =>  $det['id'], ':nombre' => $nombre, ':a_paterno' => $a_paterno, 'a_materno' => $a_materno, ':fec_nac' => $fec_nac, ':dirrecion'=> $calle, ':numero_tel' => $tel,':no_control' =>$no_control, ':division' => $carrera, ':semestre' => $semestre, ':grupo' => $grupo, ':email' => $email, ':sexo' => $sexo, ':estado_civil' => $estadoC, ':nacionalidad' => $nacionalidad, ':calle' => $calle, ':numero_interior' => $numeroIn, ':colonia' => $col, ':codigo_postal' => $codigoP, ':ciudad'=> $ciudad, ':municipio' => $muni, ':estado' => $estado));
+
+
+        $obtenerIdD = $conexion->prepare("SELECT id FROM detalle_usuarios WHERE  id_usuario = :no_control");
+        $obtenerIdD->execute(array(":no_control" => $det['id']));
+        $IDinsertado = $obtenerIdD->fetch();
+
+        $inforL = $conexion->prepare("INSERT INTO `informacion_laboral`(`id_detalles_usuarios`) VALUES (:id)");
+        $inforL->execute(array(":id" => $IDinsertado['id']));
+
+        $infC = $conexion->prepare("INSERT INTO `informacion_clinica`(`id_detusu`) VALUES (:id)");
+        $infC->execute(array(":id" => $IDinsertado['id']));
+
+        $datosTutor = $conexion->prepare("INSERT INTO `datos_tutor_conyugue`(`id_detallesusuario`) VALUES (:id)");
+        $datosTutor->execute(array(":id" => $IDinsertado['id']));
+
+        $estudio_socioeconomico = $conexion->prepare("INSERT INTO `estudio_socioeconomico`(`usuario_id`) VALUES (:id)");
+        $estudio_socioeconomico->execute(array(":id" => $IDinsertado['id']));
+
+        $datos_caso_emergencia = $conexion->prepare("INSERT INTO `datos_caso_emergencia`(`id_detallesU`) VALUES (:id)");
+        $datos_caso_emergencia->execute(array(":id" => $IDinsertado['id']));
+
+
                     /* ---- Envio Email ---- */
                     $motivo = "Solicitud de registro a la plataforma";
                     $mensaje = "Tu solicitud de ingreso a la plataforma ha sido enviada. permanece atento a tu buzón de correo pues se te notificará una vez que hayan aceptado tu acceso a la plataforma.";

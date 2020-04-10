@@ -1,3 +1,7 @@
+<?php ini_set('display_errors', 0);
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
+
+?>
 <body id="BGInicio">
     <div class="sticky-top">
        
@@ -22,7 +26,7 @@
     </nav>
     <nav class="navbar text-light justify-content-center bg-wine-dark">
         <div class="navbar-expand-sm">
-            <div class="text-capitalize">Bienvenido Tutor: <?php echo $_SESSION['usuario']['1'] ?></div>
+            <div class="text-capitalize">Bienvenido Tutor: <?php  echo $_SESSION['usuario']['1'] ?></div>
         </div>
     </nav>
     </div>

@@ -1,5 +1,6 @@
 <?php session_start();
-
+ini_set('display_errors', 0);
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
 if ($_SESSION['usuario']['3'] == '2') {
     include_once '../plantillas/doc-declaracion.inc.php';
     include_once '../plantillas/navbar_tutor.inc.php';
@@ -50,8 +51,8 @@ $enviados =$stat2->fetchAll();
                             <a href="mensaje.php?id=<?php echo $mensaje['id_mensaje'];?>&g=<?php echo $_GET['g']; ?>" class="card border-secondary post" style="margin-bottom: 5px">
                                 <div class="card-body text-dark">
                                     <div class="row">
-                                        <div class="col-7 h5 card-text text-capitalize text-azul">De: <?php $user = obtener_usuario($mensaje['emisor'],$conexion); echo $user['nombre']; ?></div>
-                                        <div class="card-text col-5 text-muted"><strong class="text-azul">Fecha: </strong><?php echo strftime("%d de %B del %G, %H:%M %p", strtotime($mensaje['fecha'])); ?></div>   
+                                        <div class="col-7 h5 card-text text-capitalize text-azul">De: <?php $user = obtener_usuario($mensaje['emisor'],$conexion);  echo $user['nombre']; ?></div>
+                                        <div class="card-text col-5 text-muted"><strong class="text-azul">Fecha: </strong><?php echo strftime("%d de %h del %G, %H:%M %p", strtotime($mensaje['fecha'])); ?></div>   
                                     </div>
                                     <div class="card-text">"<?php echo $mensaje['titulo'] ?>"</div>
                                     <div class="card-text text-muted"><?php echo substr($mensaje['mensaje'], 0, 90).'...'; ?></div>
@@ -71,7 +72,7 @@ $enviados =$stat2->fetchAll();
                             <div class="card-body text-dark">
                                 <div class="row">
                                     <div class="col-7 h5 card-text text-capitalize text-azul">Para: <?php $user = obtener_usuario($enviado['receptor'],$conexion); echo $user['nombre']; ?></div>
-                                    <div class="card-text col-5 text-muted"><strong class="text-azul">Fecha: </strong><?php echo strftime("%d de %B del %G, %H:%M %p", strtotime($enviado['fecha'])); ?></div>   
+                                    <div class="card-text col-5 text-muted"><strong class="text-azul">Fecha: </strong><?php echo strftime("%d de %h del %G, %H:%M %p", strtotime($enviado['fecha'])); ?></div>   
                                 </div>
                                 <div class="card-text">"<?php echo $enviado['titulo'] ?>"</div>
                                 <div class="card-text text-muted"><?php echo substr($enviado['mensaje'], 0, 90).'...'; ?></div>

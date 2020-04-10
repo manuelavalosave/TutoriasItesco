@@ -13,8 +13,12 @@ if (isset($_POST['boton-alumno'])) {
 		$statement->execute(array(':no_control' => $no_control, ':password' => $password));
 		$resultado = $statement->fetch();
 
+		$datosdetalle = $conexion->prepare('SELECT * FROM detalle_usuarios WHERE id_usuario = :id ');
+		$datosdetalle->execute(array(':id' => $resultado['id']));
+		$resultadoD = $datosdetalle->fetch();
+
 		if ($resultado != false) {
-			$datos = array($resultado['id'],$resultado['nombre'],$resultado['no_control'],$resultado['tipo'],$resultado['grupo']);
+			$datos = array($resultado['id'],$resultadoD['nombre'],$resultadoD['no_control'],$resultado['tipo'],$resultado['grupo']);
 			$_SESSION['usuario'] = $datos;
 			header('Location: alumno/index.php');
 		} else {
@@ -33,8 +37,12 @@ if (isset($_POST['boton-alumno'])) {
 		$statement->execute(array(':email' => $email, ':password' => $password));
 		$resultado = $statement->fetch();
 
+		$datosdetalle = $conexion->prepare('SELECT * FROM detalle_usuarios WHERE id_usuario = :id ');
+		$datosdetalle->execute(array(':id' => $resultado['id']));
+		$resultadoD = $datosdetalle->fetch();
+
 		if ($resultado != false) {
-			$datos = array($resultado['id'],$resultado['nombre'],$resultado['email'],$resultado['tipo'],$resultado['grupo']);
+			$datos = array($resultado['id'],$resultadoD['nombre'],$resultadoD['email'],$resultado['tipo'],$resultado['grupo']);
 			$_SESSION['usuario'] = $datos;
 			header('Location: tutor/index.php');
 		} else {

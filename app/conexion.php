@@ -1,7 +1,7 @@
 <?php
 //------------------------[DATOS SERVIDOR]------------------------//
 
-$db_config = array('db' => 'jose_tesis', 'user' => 'root', 'pass' => '');
+$db_config = array('db' => 'jose6', 'user' => 'root', 'pass' => '');
 
 //----------------------------------------------------------------//
 

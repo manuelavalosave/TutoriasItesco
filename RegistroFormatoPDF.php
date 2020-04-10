@@ -1,4 +1,6 @@
 <?php
+
+require_once 'app/GuardarDatos.php';
 //require('./Pdf/tabla.php');
 /*
  ob_start();
@@ -30,25 +32,27 @@ use Dompdf\Dompdf;
 
 // Instanciamos un objeto de la clase DOMPDF.
 
-$pdf = new Dompdf();
+$doompdf = new Dompdf();
 
 // Definimos el tamaño y orientación del papel que queremos.
-$pdf->set_paper("A4", "portrait");
-//$pdf->set_paper(array(0,0,104,250));
-
+$doompdf->set_paper("A4", "portrait");
+//$doompdf->set_paper(array(0,0,104,250));
+$nmero = 0;
  $html="<html>
 <head>
 <meta charset='utf-8'>
 
 
   <style>
-   @page { margin: 180px 50px; }
-   @Contador {content-incl = page}
+   @page { margin: 180px 50px;  border: red 5px solid;}
+ 
+   @Contador {content-incl = page 1}
 
-    #header {  position: fixed; left: 0px; top: -150px;  right: 0px; bottom = -100px;   height: 60px;}
+    #header {   position: fixed; left: 0px; top: -150px;  right: 0px; bottom = -100px;   height: 60px;}
  
     #footer {  position: fixed; left: 0px; bottom: -150px; right: 0px;  height: 60px;  }
-    #header .page:after { content: 'Paginas ' counter(page, decimal) ' de ' counter(page, decimal); 
+    #header .page:after { content: 'Paginas   '); 
+   content-increment = page ;
    
 }
 letrasP{
@@ -126,27 +130,61 @@ letrasP{
 
   
   </div>
- <div id='content'>
+
   ".$_POST['GuardarPlanDeTrabajo']."
-</div>
 </body>
 </html>";
 
 
  
-
-
-
+$doompdf->set_option("isPhpEnabled", true);
 
 // Cargamos el contenido HTML.
-$pdf->load_html(utf8_decode($html));
+$doompdf->load_html(utf8_decode($html));
 
 // Renderizamos el documento PDF.
-$pdf->render();
+$doompdf->render();
+// add the header
+#Esto es lo que imprime en el PDF el numero de paginas
+
+$canva = $doompdf->get_canvas();
+ $canva->get_page_count();
+    $canva->page_script('
+    
+       $current_page = $PAGE_NUM-1;
+    $total_pages = $PAGE_COUNT;
+    $nmero = $PAGE_COUNT;
+    $font = $fontMetrics->getFont("open sans condensed", "serif"); // or bold, italic, or bold_italic
+    $pdf->text(465, 74, "$PAGE_NUM de $total_pages", $font, 11, array(0,0,0));
+    
+   ');
 
 // Enviamos el fichero PDF al navegador.
-$pdf->stream ( "codexworld" , array ( "Attachment"  =>  0 ));
+$doompdf->stream ( "codexworld" , array ( "Attachment"  =>  0 ));
+$nombredelarchivo = str_replace(" ", "_", $_POST['Titulor']);
+$carpeta = "../PITA-2.0.1/docs/registros/".$_POST['Grupo']."";
+if (!file_exists($carpeta)) {
+    mkdir($carpeta, 0777, true);
+}
+$file_to_save = "../PITA-2.0.1/docs/registros/".$_POST['Grupo']."/".$nombredelarchivo.".pdf";
+file_put_contents($file_to_save, $output);
 
+header('Content-type: application/pdf');
+header('Content-Disposition: inline; filename="'.$nombredelarchivo.'.pdf"');
+header('Content-Transfer-Encoding: binary');
+
+readfile($file_to_save);
+
+$rutaHTML = "../PITA-2.0.1/docs/registros/html/".$_POST['Grupo']."/".$nombredelarchivo.".html";
+$carpeta = "../PITA-2.0.1/docs/registros/html/".$_POST['Grupo']."";
+if (!file_exists($carpeta)) {
+    mkdir($carpeta, 0777, true);
+}
+$generadorHTML = fopen ( "$rutaHTML", 'w+' );//abro o genero archivo *ruta relativa
+fwrite ($generadorHTML, $_POST['GuardarPlanDeTrabajo']);//escribo el contenido
+fclose($generadorHTML);//cierro el archivo
+
+$GuardarBD = Insertar_Formatos_Tutor($nombredelarchivo,0); 
 function file_get_contents_curl($url) {
 	$crl = curl_init();
 	$timeout = 5;

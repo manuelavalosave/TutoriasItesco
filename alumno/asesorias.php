@@ -18,7 +18,9 @@ $Grupos = $BuscarGrupo->fetch();
 $statement = $conexion->prepare("SELECT * FROM entrevistas WHERE id_alumno = :id ORDER BY fecha DESC");
 $statement->execute(array(":id" => $_SESSION['usuario']['0']));
 $resultado = $statement->fetchAll();
-print_r($resultado);
+
+
+
 $BuscarH = $conexion->prepare("SELECT * FROM horario_entrevista WHERE id_grupos = :id ORDER BY Id_Horario DESC");
 $BuscarH->execute(array(":id" => $Grupos['id_gp']));
 $Horarios = $BuscarH->fetchAll();
@@ -98,11 +100,15 @@ $Horarios = $BuscarH->fetchAll();
                     <?php endif ?>
                     <?php foreach ($resultado as $asesoria):?>
                     <div class="card card-body" style="background-color:#fafafa">
-                        <b class="h3 text-viol">"<?php echo $asesoria['titulo']?>"</b>
-                        <i class="text-muted"><?php echo $asesoria['descripcion']?></i>
-                        <div class="row">
-                            <div class="col text-left text-muted"><b class="text-viol">Fecha de la asesoría: </b><?php echo strftime("%d de %B del %G", strtotime($asesoria['fecha'])) ?></div>
-                            <div class="col text-right text-muted"><b class="text-viol2">Hora: </b><?php echo $asesoria['hora'] ?>  hrs</div>
+                        <b class="h3 text-viol">Entrevista</b>
+                                                <div class="row">
+                            <div class="col text-left text-muted"><b class="text-viol">Fecha de la asesoría: </b><?php echo strftime("%d de %h del %G", strtotime($asesoria['fecha'])) ?></div>
+                            <div class="col text-right text-muted"><b class="text-viol2">Hora: </b><?php 
+$HorarioSolicitado = $conexion->prepare("SELECT * FROM horario_entrevista WHERE Id_Horario = :id");
+$HorarioSolicitado->execute(array(":id" => $asesoria['id_lugar']));
+$Lugar = $HorarioSolicitado->fetchAll();
+print_r($Lugar[0][2]);
+                             ?>  hrs</div>
                         </div>
                     </div>
                     <p></p>

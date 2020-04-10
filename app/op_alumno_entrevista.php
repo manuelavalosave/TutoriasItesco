@@ -15,10 +15,10 @@ if (isset($_POST['enviar'])) {
     
     $fecha = $_POST['fecha'];
 //echo $fecha; echo $_POST['hora']; 
-echo $alumno;
-    $asesoria = $conexion->prepare("INSERT INTO entrevistas(fecha, id_Lugar, id_alumno, id_grupo) VALUES (:f, :L, :A, :G)"); 
-    $asesoria->execute(array(":f" => $fecha, ':L' => $_POST['hora'], ":A" => $alumno,':G' => $_POST['Grupo_id']));
 
+    $asesoria = $conexion->prepare("INSERT INTO entrevistas(fecha, id_lugar, id_alumno, id_grupo) VALUES (:f, :L, :A, :G)"); 
+    $asesoria->execute(array(":f" => "$fecha", ':L' => $_POST['hora'], ":A" => $alumno,':G' => $_POST['Grupo_id']));
+ 
     header('Location: ../alumno/asesorias.php?a=1');
 }
 

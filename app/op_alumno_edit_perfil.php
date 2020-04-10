@@ -11,4 +11,8 @@ if(!empty($_POST['guardar'])){
 $stat = $conexion->prepare("SELECT direccion, num_tel ,email FROM detalle_usuarios WHERE id_usuario = :usuario");
 $stat->execute(array(":usuario" => $_SESSION['usuario']['0']));
 $email = $stat->fetch();
+$DatosUser = $conexion->prepare('CALL datos_tutorado(:id)');
+$DatosUser->execute(array(':id' => $_SESSION['usuario']['0']));
+$DTBUSER = $DatosUser->fetchall();
+$DatosUser = null;
 ?>

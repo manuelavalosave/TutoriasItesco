@@ -1,5 +1,7 @@
 <?php
 session_start();
+ini_set('display_errors', 0);
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
 if ($_SESSION['usuario']['3'] == '1') {
     include_once '../plantillas/doc-declaracion.inc.php';
     include_once '../plantillas/navbar_admin.inc.php';
@@ -102,19 +104,14 @@ $j = 1;
                     </thead>
                     <tbody>
                         <?php foreach($alumnos as $alumno): ?>
-                        <?php
-                        $grupo = $alumno['grupo'];
-                        $stat2 = $conexion->prepare("SELECT * FROM grupo WHERE id_grupo = $grupo ");
-                        $stat2->execute();
-                        $group = $stat2->fetch();
-                        ?>
+                     
                         <tr>
                             <td><?php echo $j?></td>
                             <td class="text-capitalize"><?php echo $alumno['nombre']?> <?php echo $alumno['a_paterno']?> <?php echo $alumno['a_materno']?></td>
                             <td><?php echo $alumno['no_control']?></td>
-                            <td><?php echo $group['grupo']?></td>
-                            <td><?php echo $group['semestre']?></td>
-                            <td><?php echo $group['carrera']?></td>
+                            <td><?php echo $alumno['grupo']?></td>
+                            <td><?php echo $alumno['semestre']?></td>
+                            <td><?php echo $alumno['carrera']?></td>
                             <td>
                                 <a href="editar_usuario.php?id=<?php echo $alumno['id']?>" class="btn btn-sm btn-outline-secondary">Editar</a>
                                 <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#borrar-alumno<?php echo $j?>">Eliminar</button>

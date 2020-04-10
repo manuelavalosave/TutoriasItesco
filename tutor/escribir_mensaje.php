@@ -29,9 +29,21 @@ if ($_SESSION['usuario']['3'] == '2') {
                 		<div class="input-group">
                 			<span class="input-group-addon" for="para">Para:</span>
                 			<select class="custom-select text-capitalize" name="receptor">
-                				<?php foreach ($usuarios as $usuario): ?>
-                					<option value="<?php echo $usuario['id']; ?>"><?php echo $usuario['nombre']; ?></option>
-                				<?php endforeach ?>
+                				<?php  foreach ($usuarios as $a){
+
+                                
+                                 
+$datosUsuario = $conexion->prepare("CALL informacion_alumno(:id)");
+$datosUsuario->execute(array(":id" =>$a[0]));
+$DetalleU = $datosUsuario->fetchall();
+
+foreach ($DetalleU as $usuario) {
+
+
+
+                                ?>
+                					<option value="<?php echo $usuario['id_usuario']; ?>"><?php echo "".$usuario['nombre']." ".$usuario['a_paterno']." ".$usuario['a_materno'].""; ?></option>
+                				<?php }} ?>
                 			</select>
                             <br>
                 		</div>
